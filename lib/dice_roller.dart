@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 //class per creare un widget personalizzato che estende StatefulWidget
 //StatefulWidget è un widget che può essere modificato dopo essere stato creato,
@@ -31,13 +32,26 @@ class DiceRoller extends StatefulWidget {
 class _DiceRollerState extends State<DiceRoller> {
   //var è una variabile che può cambiare tipo di dato in base al valore asegnato
   //ora che abbiamo aggiunto una variabile, const non può essere usato nella classe perchè la classe non è più completamente costante
-  var activeDiceimage = 'assets/images/dice-2.png';
+  //var activeDiceimage = 'assets/images/dice-2.png';
+
+  var diceNumber = 2;
 
   //metodo per gestire l'evento di pressione del bottone
   void rollDice() {
+    //Random è una classe importata da dart:math che genera numeri casuali
+    //nextInt(6) genera un numero intero casuale tra 0 e 5, quindi si aggiunge 1 per ottenere un numero tra 1 e 6
+    //per ottenere il numero preciso va sempre aumentato di 1 perchè parte da 0
+    diceNumber = Random().nextInt(6) + 1;
+
+    //setState è un metodo obbligatorio per tutti i widget StateFul
+    //serve per notificare al framework che lo stato del widget è cambiato
+    //quando si chiama setState, il metodo build viene richiamato di nuovo per aggiornare l'interfaccia utente
     setState(() {
       //activeDiceimage cambia il valore della variabile per cambiare l'immagine visualizzata
-      activeDiceimage = 'assets/images/dice-4.png';
+      //uso della interpolazione di stringa per aggiornare il percorso dell'immagine in base al numero casuale generato
+      //per usare le immagini dinamicamente, abbiamo aggiunto $diceRoll all'interno della stringa, sostituendo il numero fisso dell'immagine
+      //la sintassi $ è usata per inserire il valore di una variabile all'interno di una stringa.
+      //activeDiceimage = 'assets/images/dice-$diceRoll.png';
     });
 
     print('Changing image...');
@@ -60,10 +74,10 @@ class _DiceRollerState extends State<DiceRoller> {
         //asset è un costruttore di Image che carica un'immagine dalle risorse del progetto
         //width è un parametro di Image che imposta la larghezza dell'immagine
         Image.asset(
-          /*'assets/images/dice-5.png'*/
-          //uso della variabile per cambiare l'immagine visualizzata in base allo stato
-          activeDiceimage,
+          'assets/images/dice-$diceNumber.png',
 
+          //uso della variabile per cambiare l'immagine visualizzata in base allo stato
+          //activeDiceimage,
           width: 200,
         ),
         //2. modo di aggiungere uno spazio, crea un box vuoto che occupa spazio al suo interno
